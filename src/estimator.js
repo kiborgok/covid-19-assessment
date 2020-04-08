@@ -1,3 +1,4 @@
+/*
 const data = {
   region: {
     name: 'Africa',
@@ -11,6 +12,8 @@ const data = {
   population: 66622705,
   totalHospitalBeds: 1380614
 };
+
+*/
 
 const covid19ImpactEstimator = (data) => {
   const currentlyInfected = (_reportedCases) => _reportedCases;
