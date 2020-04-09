@@ -26,23 +26,23 @@ const covid19ImpactEstimator = (data) => {
   const period = normalizePeriod(data.periodType, data.timeToElapse);
 
   impact.currentlyInfected = crntlyInfected * 10;
-  impact.infectionsByRequestedTime = impact.currentlyInfected * period;
+  impact.infectionsByRequestedTime = Math.trunc(impact.currentlyInfected * period);
   impact.severeCasesByRequestedTime = impact.infectionsByRequestedTime * 0.15;
   const hospitalRequestedTime = bedAvailability - impact.severeCasesByRequestedTime;
   impact.hospitalBedsByRequestedTime = Math.trunc(hospitalRequestedTime);
   impact.casesForICUByRequestedTime = impact.infectionsByRequestedTime * 0.05;
-  impact.casesForVentilatorsByRequestedTime = impact.infectionsByRequestedTime * 0.02;
+  impact.casesForVentilatorsByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * 0.02);
   const impactDollarsInFlight = impact.infectionsByRequestedTime * 0.65 * 1.5;
   impact.dollarsInFlight = impactDollarsInFlight;
 
   severeImpact.currentlyInfected = crntlyInfected * 50;
-  severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * period;
+  severeImpact.infectionsByRequestedTime = Math.trunc(severeImpact.currentlyInfected * period);
   severeImpact.severeCasesByRequestedTime = severeImpact.infectionsByRequestedTime * 0.15;
   const severeImpactCasesByRequestedTime = severeImpact.severeCasesByRequestedTime;
   const svrHospitalRequestedTime = bedAvailability - severeImpactCasesByRequestedTime;
   severeImpact.hospitalBedsByRequestedTime = Math.trunc(svrHospitalRequestedTime);
-  severeImpact.casesForICUByRequestedTime = severeImpact.infectionsByRequestedTime * 0.05;
-  severeImpact.casesForVentilatorsByRequestedTime = severeImpact.infectionsByRequestedTime * 0.02;
+  severeImpact.casesForICUByRequestedTime = Math.trunc(severeImpact.infectionsByRequestedTime * 0.05);
+  severeImpact.casesForVentilatorsByRequestedTime = Math.trunc(severeImpact.infectionsByRequestedTime * 0.02);
   const severeImpactDollarsInFlight = severeImpact.infectionsByRequestedTime * 0.65 * 1.5;
   severeImpact.dollarsInFlight = severeImpactDollarsInFlight;
 
