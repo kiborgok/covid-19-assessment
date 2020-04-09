@@ -1,16 +1,16 @@
 const covid19ImpactEstimator = (data) => {
   const currentlyInfected = (_reportedCases) => _reportedCases;
   const normalizePeriod = (period, timeToElapse) => {
-    const timeToElaps = 2 ** Math.floor(timeToElapse / 3);
+    let timeToElaps = 2 ** Math.floor(timeToElapse / 3);
+    const weeksInDays = timeToElapse * 7;
+    const monthsInDays = timeToElapse * 30;
     switch (period) {
       case 'days':
         return timeToElaps;
       case 'weeks':
-        const weeksInDays = timeToElapse * 7;
         timeToElaps = 2 ** Math.floor(weeksInDays / 3);
         return timeToElaps;
       case 'months':
-        const monthsInDays = timeToElapse * 30;
         timeToElaps = 2 ** Math.floor(monthsInDays / 3);
         return timeToElaps * 30;
       default:
