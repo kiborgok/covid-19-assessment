@@ -6,8 +6,12 @@ const covid19ImpactEstimator = (data) => {
       case 'days':
         return timeToElaps;
       case 'weeks':
-        return timeToElaps * 7;
+        const days = timeToElapse * 7;
+        timeToElaps = 2 ** Math.floor(days / 3);
+        return timeToElaps;
       case 'months':
+        const days = timeToElapse * 30;
+        timeToElaps = 2 ** Math.floor(days / 3);
         return timeToElaps * 30;
       default:
         return null;
