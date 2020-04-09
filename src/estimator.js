@@ -1,14 +1,14 @@
 const covid19ImpactEstimator = (data) => {
   const currentlyInfected = (_reportedCases) => _reportedCases;
   const normalizePeriod = (period, timeToElapse) => {
-    timeToElapse = timeToElapse / 3 | 0;
+    timeToElaps = Math.pow(2, Math.floor(timeToElapse / 3));
     switch (period) {
       case 'days':
-        return timeToElapse;
+        return timeToElaps;
       case 'weeks':
-        return timeToElapse * 7;
+        return timeToElaps * 7;
       case 'months':
-        return timeToElapse * 30;
+        return timeToElaps * 30;
       default:
         return null;
     }
@@ -20,7 +20,6 @@ const covid19ImpactEstimator = (data) => {
   const crntlyInfected = currentlyInfected(data.reportedCases);
   const bedAvailability = data.totalHospitalBeds * 0.35;
   const period = normalizePeriod(data.periodType, data.timeToElapse);
-  console.log(period);
 
   impact.currentlyInfected = crntlyInfected * 10;
   impact.infectionsByRequestedTime = impact.currentlyInfected * 2 * period;
