@@ -32,8 +32,8 @@ const covid19ImpactEstimator = (data) => {
   impact.severeCasesByRequestedTime = impact.infectionsByRequestedTime * 0.15;
   const hospitalRequestedTime = bedAvailability - impact.severeCasesByRequestedTime;
   impact.hospitalBedsByRequestedTime = Math.trunc(hospitalRequestedTime);
-  impact.casesForICUByRequestedTime = impact.infectionsByRequestedTime * 0.05 * period;
-  const impactVentilators = Math.trunc(impact.infectionsByRequestedTime * 0.02 * period);
+  impact.casesForICUByRequestedTime = impact.infectionsByRequestedTime * 0.05;
+  const impactVentilators = Math.trunc(impact.infectionsByRequestedTime * 0.02);
   impact.casesForVentilatorsByRequestedTime = impactVentilators;
   const impactDollarsInFlight = impact.infectionsByRequestedTime * avgIncome * avgPop;
   impact.dollarsInFlight = Math.trunc(impactDollarsInFlight);
@@ -44,9 +44,9 @@ const covid19ImpactEstimator = (data) => {
   const severeImpactCasesByRequestedTime = severeImpact.severeCasesByRequestedTime;
   const svrHospitalRequestedTime = bedAvailability - severeImpactCasesByRequestedTime;
   severeImpact.hospitalBedsByRequestedTime = Math.trunc(svrHospitalRequestedTime);
-  severeImpact.casesForICUByRequestedTime = severeImpact.infectionsByRequestedTime * 0.05 * period;
+  severeImpact.casesForICUByRequestedTime = severeImpact.infectionsByRequestedTime * 0.05;
   const severeImpactVentilators = Math.trunc(severeImpact.infectionsByRequestedTime * 0.02);
-  severeImpact.casesForVentilatorsByRequestedTime = severeImpactVentilators * period;
+  severeImpact.casesForVentilatorsByRequestedTime = severeImpactVentilators;
   const svrImpctDolarsInFlight = severeImpact.infectionsByRequestedTime * avgIncome * avgPop;
   severeImpact.dollarsInFlight = Math.trunc(svrImpctDolarsInFlight);
 
