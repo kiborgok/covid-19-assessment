@@ -17,7 +17,6 @@ const covid19ImpactEstimator = (data) => {
         return timeToElapse;
     }
   };
-
   const dollarsInFlightFunc = (period, timeToElapse) => {
     let timeToElaps = timeToElapse;
     const weeksInDays = timeToElapse * 7;
@@ -35,9 +34,6 @@ const covid19ImpactEstimator = (data) => {
         return timeToElapse;
     }
   };
-
-
-  
 
   const impact = {};
   const severeImpact = {};
