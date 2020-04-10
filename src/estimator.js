@@ -24,6 +24,8 @@ const covid19ImpactEstimator = (data) => {
   const crntlyInfected = currentlyInfected(data.reportedCases);
   const bedAvailability = data.totalHospitalBeds * 0.35;
   const period = normalizePeriod(data.periodType, data.timeToElapse);
+  const avgIncome = data.region.avgDailyIncomeInUSD;
+  const avgDailyPop = data.region.avgDailyIncomePopulation;
 
   impact.currentlyInfected = crntlyInfected * 10;
   impact.infectionsByRequestedTime = impact.currentlyInfected * period;
@@ -31,8 +33,9 @@ const covid19ImpactEstimator = (data) => {
   const hospitalRequestedTime = bedAvailability - impact.severeCasesByRequestedTime;
   impact.hospitalBedsByRequestedTime = Math.trunc(hospitalRequestedTime);
   impact.casesForICUByRequestedTime = impact.infectionsByRequestedTime * 0.05;
-  impact.casesForVentilatorsByRequestedTime = impact.infectionsByRequestedTime * 0.02;
-  const impactDollarsInFlight = impact.infectionsByRequestedTime * 0.65 * 1.5;
+  const impactVentilators = Math.trunc(impact.infectionsByRequestedTime * 0.02);
+  impact.casesForVentilatorsByRequestedTime = impactVentilators;
+  const impactDollarsInFlight = impact.infectionsByRequestedTime * avgIncome * avgDailyPop;
   impact.dollarsInFlight = impactDollarsInFlight;
 
   severeImpact.currentlyInfected = crntlyInfected * 50;
@@ -42,8 +45,9 @@ const covid19ImpactEstimator = (data) => {
   const svrHospitalRequestedTime = bedAvailability - severeImpactCasesByRequestedTime;
   severeImpact.hospitalBedsByRequestedTime = Math.trunc(svrHospitalRequestedTime);
   severeImpact.casesForICUByRequestedTime = severeImpact.infectionsByRequestedTime * 0.05;
-  severeImpact.casesForVentilatorsByRequestedTime = severeImpact.infectionsByRequestedTime * 0.02;
-  const severeImpactDollarsInFlight = severeImpact.infectionsByRequestedTime * 0.65 * 1.5;
+  const severeImpactVentilators = Math.trunc(severeImpact.infectionsByRequestedTime * 0.02);
+  severeImpact.casesForVentilatorsByRequestedTime = severeImpactVentilators;
+  const severeImpactDollarsInFlight = severeImpact.infectionsByRequestedTime * avgIncome * avgDailyPop;
   severeImpact.dollarsInFlight = severeImpactDollarsInFlight;
 
   return {
