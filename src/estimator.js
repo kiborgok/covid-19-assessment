@@ -18,12 +18,34 @@ const covid19ImpactEstimator = (data) => {
     }
   };
 
+  const dollarsInFlightFunc = (period, timeToElapse) => {
+    let timeToElaps = timeToElapse;
+    const weeksInDays = timeToElapse * 7;
+    const monthsInDays = timeToElapse * 30;
+    switch (period) {
+      case 'days':
+        return timeToElaps;
+      case 'weeks':
+        timeToElaps = weeksInDays;
+        return timeToElaps;
+      case 'months':
+        timeToElaps = monthsInDays;
+        return timeToElaps;
+      default:
+        return timeToElapse;
+    }
+  };
+
+
+  
+
   const impact = {};
   const severeImpact = {};
 
   const crntlyInfected = currentlyInfected(data.reportedCases);
   const bedAvailability = data.totalHospitalBeds * 0.35;
   const period = normalizePeriod(data.periodType, data.timeToElapse);
+  const dollarsPeriod = dollarsInFlightFunc(data.periodType, data.timeToElapse);
   const avgIncome = data.region.avgDailyIncomeInUSD;
   const avgPop = data.region.avgDailyIncomePopulation;
 
@@ -36,7 +58,7 @@ const covid19ImpactEstimator = (data) => {
   const impactVentilators = Math.trunc(impact.infectionsByRequestedTime * 0.02);
   impact.casesForVentilatorsByRequestedTime = impactVentilators;
   const impactDollarsInFlight = impact.infectionsByRequestedTime * avgIncome * avgPop;
-  impact.dollarsInFlight = Math.trunc(impactDollarsInFlight / data.timeToElapse);
+  impact.dollarsInFlight = Math.trunc(impactDollarsInFlight / dollarsPeriod);
 
   severeImpact.currentlyInfected = crntlyInfected * 50;
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * period;
@@ -48,7 +70,7 @@ const covid19ImpactEstimator = (data) => {
   const severeImpactVentilators = Math.trunc(severeImpact.infectionsByRequestedTime * 0.02);
   severeImpact.casesForVentilatorsByRequestedTime = severeImpactVentilators;
   const svrImpctDolarsInFlight = severeImpact.infectionsByRequestedTime * avgIncome * avgPop;
-  severeImpact.dollarsInFlight = Math.trunc(svrImpctDolarsInFlight / data.timeToElapse);
+  severeImpact.dollarsInFlight = Math.trunc(svrImpctDolarsInFlight / dollarsPeriod);
 
   return {
     data,
