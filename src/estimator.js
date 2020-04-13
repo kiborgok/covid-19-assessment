@@ -44,16 +44,16 @@ const covid19ImpactEstimator = (data) => {
   const dollarsPeriod = dollarsInFlightFunc(data.periodType, data.timeToElapse);
   const avgIncome = data.region.avgDailyIncomeInUSD;
   const avgPop = data.region.avgDailyIncomePopulation;
+  const hospitalRequestedTime = bedAvailability - impact.severeCasesByRequestedTime;
+  const impactVentilators = Math.trunc(impact.infectionsByRequestedTime * 0.02);
+  const impactDollarsInFlight = impact.infectionsByRequestedTime * avgIncome * avgPop;
 
   impact.currentlyInfected = crntlyInfected * 10;
   impact.infectionsByRequestedTime = impact.currentlyInfected * period;
   impact.severeCasesByRequestedTime = impact.infectionsByRequestedTime * 0.15;
-  const hospitalRequestedTime = bedAvailability - impact.severeCasesByRequestedTime;
   impact.hospitalBedsByRequestedTime = Math.trunc(hospitalRequestedTime);
   impact.casesForICUByRequestedTime = impact.infectionsByRequestedTime * 0.05;
-  const impactVentilators = Math.trunc(impact.infectionsByRequestedTime * 0.02);
   impact.casesForVentilatorsByRequestedTime = impactVentilators;
-  const impactDollarsInFlight = impact.infectionsByRequestedTime * avgIncome * avgPop;
   impact.dollarsInFlight = Math.trunc(impactDollarsInFlight / dollarsPeriod);
 
   severeImpact.currentlyInfected = crntlyInfected * 50;
