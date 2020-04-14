@@ -14,7 +14,7 @@ const covid19ImpactEstimator = (data) => {
         timeToElaps = 2 ** Math.trunc(monthsInDays / 3);
         return timeToElaps;
       default:
-        return timeToElapse;
+        return timeToElaps;
     }
   };
   const dollarsInFlightFunc = (period, timeToElapse) => {
@@ -31,7 +31,7 @@ const covid19ImpactEstimator = (data) => {
         timeToElaps = monthsInDays;
         return timeToElaps;
       default:
-        return timeToElapse;
+        return timeToElaps;
     }
   };
 
